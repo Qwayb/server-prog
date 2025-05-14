@@ -9,6 +9,11 @@ class Route
     private static array $routes = [];
     private static string $prefix = '';
 
+    public function __construct(string $prefix = '')
+    {
+        self::setPrefix($prefix);
+    }
+
     public static function setPrefix($value)
     {
         self::$prefix = $value;
@@ -19,6 +24,16 @@ class Route
         if (!array_key_exists($route, self::$routes)) {
             self::$routes[$route] = $action;
         }
+    }
+
+    public function redirect(string $url): void
+    {
+        header('Location: ' . $this->getUrl($url));
+    }
+
+    public function getUrl(string $url): string
+    {
+        return self::$prefix . $url;
     }
 
     public function start(): void
