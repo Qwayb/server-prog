@@ -2,8 +2,10 @@
 
 namespace Controller;
 
+use Model\Division;
 use Model\Post;
 use Model\User;
+use Model\Subscriber;
 use Src\Request;
 use Src\View;
 use Src\Auth\Auth;
@@ -49,4 +51,25 @@ class Site
         app()->route->redirect('/');
     }
 
+    public function subscribers(Request $request): string
+    {
+        // Получаем всех абонентов из модели
+        $subscribers = Subscriber::all();
+
+        // Передаем в представление
+        return (new View())->render('site.subscribers', [
+            'subscribers' => $subscribers
+        ]);
+    }
+
+    public function divisions(Request $request): string
+    {
+        // Получаем все подразделения
+        $divisions = Division::all();
+
+        // Возвращаем представление с данными
+        return (new View())->render('site.divisions', [
+            'divisions' => $divisions
+        ]);
+    }
 }

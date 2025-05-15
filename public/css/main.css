@@ -2,7 +2,8 @@
     margin: 0;
     padding: 0;
     text-decoration: none;
-
+    font-family: "Noto Sans", serif;
+    font-size: 2vh;
 }
 
 body {
@@ -30,9 +31,8 @@ button:hover, .button:hover {
     background: #7c7c7c;
 }
 
-p, a, h1, h2, h3, input, button, select {
-    font-family: "Noto Sans", serif;
-    font-size: 2vh;
+p, a, h1, h2, h3, input, button, select, ol, li {
+
 }
 
 
