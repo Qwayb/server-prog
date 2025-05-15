@@ -1,0 +1,78 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+
+}
+
+body {
+    background: #f5f5f5;
+}
+
+input, input:focus {
+    outline: none;
+    border: none;
+    background: #D9D9D9;
+    padding: 1vh 1.5vh;
+}
+
+button {
+    outline: none;
+    border: none;
+    background: #565656;
+    color: white;
+    padding: 1vh 1.5vh;
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+button:hover {
+    background: #7c7c7c;
+}
+
+p, a, h1, h2, h3, input, button {
+    font-family: "Noto Sans", serif;
+    font-size: 2vh;
+}
+
+
+a {
+    color: black;
+    transition: all 0.1s ease;
+}
+
+a:hover {
+    font-size: 2.2vh;
+    color: #202020;
+}
+
+.container {
+    width: 68.75%;
+    margin: 0 auto;
+}
+
+/*main.php*/
+header {
+    background: #D9D9D9;
+    height: 7.3vh;
+    align-content: center;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+}
+
+/*login.php*/
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8vh;
+    margin: auto;
+    justify-content: center;
+    height: 100vh;
+}
+
+.auth-form {
+    width: 24.1vh;
+}
