@@ -4,6 +4,7 @@ namespace Controller;
 
 use Model\Division;
 use Model\Post;
+use Model\Room;
 use Model\User;
 use Model\Subscriber;
 use Src\Request;
@@ -70,6 +71,15 @@ class Site
         // Возвращаем представление с данными
         return (new View())->render('site.divisions', [
             'divisions' => $divisions
+        ]);
+    }
+
+    public function rooms(Request $request): string
+    {
+        $rooms = Room::all();
+
+        return (new View())->render('site.rooms', [
+            'rooms' => $rooms
         ]);
     }
 }
