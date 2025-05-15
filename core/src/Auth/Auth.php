@@ -58,4 +58,11 @@ class Auth
         return true;
     }
 
+    //Проверка на админа
+
+    public static function isAdmin(): bool
+    {
+        $user = self::user();
+        return $user && $user->role === 'admin';
+    }
 }

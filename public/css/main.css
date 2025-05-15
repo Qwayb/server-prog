@@ -9,14 +9,14 @@ body {
     background: #f5f5f5;
 }
 
-input, input:focus {
+input, input:focus, select {
     outline: none;
     border: none;
     background: #D9D9D9;
     padding: 1vh 1.5vh;
 }
 
-button {
+button, .button {
     outline: none;
     border: none;
     background: #565656;
@@ -26,11 +26,11 @@ button {
     transition: all 0.1s ease;
 }
 
-button:hover {
+button:hover, .button:hover {
     background: #7c7c7c;
 }
 
-p, a, h1, h2, h3, input, button {
+p, a, h1, h2, h3, input, button, select {
     font-family: "Noto Sans", serif;
     font-size: 2vh;
 }
@@ -43,7 +43,6 @@ a {
 
 a:hover {
     font-size: 2.2vh;
-    color: #202020;
 }
 
 .container {
@@ -56,6 +55,7 @@ header {
     background: #D9D9D9;
     height: 7.3vh;
     align-content: center;
+    margin-bottom: 5vh;
 }
 
 nav {
@@ -75,4 +75,23 @@ form {
 
 .auth-form {
     width: 24.1vh;
+}
+
+/*hello.php*/
+.main-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3vh;
+    flex-wrap: wrap;
+}
+
+.main-buttons__button {
+    margin-bottom: 2vh;
+}
+
+/*signup.php*/
+
+.signup-form {
+    height: 87vh;
 }
