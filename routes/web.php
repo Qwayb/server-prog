@@ -18,3 +18,8 @@ Route::add('GET', '/divisions', [Controller\DivisionController::class, 'list'])
     ->middleware('auth');
 Route::add(['GET', 'POST'], '/divisions-add', [Controller\DivisionController::class, 'add'])
     ->middleware('auth');;
+
+Route::add('GET', '/divisions-select', [Controller\DivisionController::class, 'selectDivision'])
+    ->middleware('auth');
+Route::add('GET', '/subscribers/{id}', [Controller\DivisionController::class, 'listSubscribers'])
+    ->middleware('auth');

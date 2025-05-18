@@ -2,20 +2,10 @@
 
 <form method="post" action="/divisions-add">
     <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
-    <div>
         <label>Название:</label>
         <input type="text" name="title" required>
-    </div>
-
-    <div>
         <label>Тип:</label>
-        <select name="division_type" required>
-            <option value="office">Офис</option>
-            <option value="warehouse">Склад</option>
-            <option value="production">Производство</option>
-        </select>
-    </div>
-
+        <input type="text" name="division-type" required>
     <button type="submit">Добавить</button>
 </form>
 

@@ -50,8 +50,24 @@ a {
     margin: 0 auto;
 }
 
-td, thead {
+td, th {
     padding: 1vh;
+    border: 1px solid;
+
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px solid;
+}
+
+.list-div{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 /*main.php*/
