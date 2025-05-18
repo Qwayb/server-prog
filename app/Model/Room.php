@@ -20,4 +20,12 @@ class Room extends Model
     {
         return $this->hasMany(Phone::class);
     }
+
+    // Метод для подсчета уникальных абонентов
+    public function subscribersCount()
+    {
+        return Phone::where('room_id', $this->id)
+            ->distinct('subscriber_id')
+            ->count('subscriber_id');
+    }
 }

@@ -7,6 +7,8 @@
         <th>Название</th>
         <th>Тип помещения</th>
         <th>Подразделение</th>
+        <th>Абонентов</th>
+
     </tr>
     </thead>
     <tbody>
@@ -16,7 +18,7 @@
             <td><?= htmlspecialchars($room->title) ?></td>
             <td><?= htmlspecialchars($room->room_type) ?></td>
             <td><?= htmlspecialchars($room->division_id) ?></td>
-
+            <td><?= $room->subscribersCount() ?></td>
         </tr>
     <?php endforeach; ?>
     </tbody>

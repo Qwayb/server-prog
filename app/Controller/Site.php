@@ -113,13 +113,10 @@ class Site
         ]);
     }
 
-    public function rooms(Request $request): string
+    public function rooms(): string
     {
-        $rooms = Room::all();
-
-        return (new View())->render('site.rooms', [
-            'rooms' => $rooms
-        ]);
+        $rooms = Room::all(); // Получаем все помещения
+        return (new View())->render('site.rooms', ['rooms' => $rooms]);
     }
 
     public function phones(): string
