@@ -21,3 +21,7 @@
     <?php endforeach; ?>
     </tbody>
 </table>
+
+<?php if (app()->auth::isAdmin()): ?>
+    <a href="<?= app()->route->getUrl('/rooms-add') ?>" class="button">Добавить помещение</a>
+<?php endif; ?>
