@@ -6,38 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Subscriber extends Model
 {
-
     public $timestamps = false;
-    protected $fillable = [
-        'surname',
-        'name',
-        'patronymic',
-        'birth_date',
-        'division_id'
-    ];
+    protected $fillable = ['surname', 'name', 'patronymic', 'birth_date', 'user_id'];
 
-
-    // Получить всех абонентов
-    public static function all($columns = ['*'])
-    {
-        return parent::all($columns);
-    }
-
-    // Создать нового абонента
-    public static function create(array $attributes = [])
-    {
-        return parent::create($attributes);
-    }
-
-    // Связь: абонент имеет много телефонов
+    // Связь с телефонами
     public function phones()
     {
-        return $this->hasMany(Phone::class, 'subscriber_id');
-    }
-
-    // Связь: абонент привязан к пользователю
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->hasMany(Phone::class);
     }
 }

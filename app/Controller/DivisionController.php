@@ -12,7 +12,9 @@ class DivisionController
     public function list(): string
     {
         $divisions = Division::all();
-        return (new View())->render('site.divisions', ['divisions' => $divisions]);
+        return (new View())->render('site.divisions', [
+            'divisions' => $divisions
+        ]);
     }
 
     public function add(Request $request): string

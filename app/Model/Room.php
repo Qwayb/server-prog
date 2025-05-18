@@ -7,21 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Room extends Model
 {
     public $timestamps = false;
-    protected $fillable = [
-        'title',
-        'room_type',
-        'division_id'
-    ];
+    protected $fillable = ['title', 'room_type', 'division_id'];
 
-    // Обратная связь с телефонами
+    // Связь с подразделением
     public function division()
     {
-        return $this->belongsTo(Division::class, 'division_id');
+        return $this->belongsTo(Division::class);
     }
 
-    // Связь "один ко многим" с Phone
+    // Связь с телефонами
     public function phones()
     {
-        return $this->hasMany(Phone::class, 'room_id');
+        return $this->hasMany(Phone::class);
     }
 }

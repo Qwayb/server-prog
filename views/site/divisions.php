@@ -6,6 +6,7 @@
         <th>ID</th>
         <th>Название</th>
         <th>Тип подразделения</th>
+        <th>Абонентов</th>
     </tr>
     </thead>
     <tbody>
@@ -14,6 +15,7 @@
             <td><?= $division->id ?></td>
             <td><?= htmlspecialchars($division->title) ?></td>
             <td><?= htmlspecialchars($division->division_type) ?></td>
+            <td><?= $division->subscribers_count ?></td>
         </tr>
     <?php endforeach; ?>
     </tbody>
