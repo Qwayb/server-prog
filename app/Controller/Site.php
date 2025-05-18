@@ -26,9 +26,15 @@ class Site
 
     public function signup(Request $request): string
     {
-        if ($request->method === 'POST' && User::create($request->all())) {
-            app()->route->redirect('/');
+        if ($request->method === 'POST') {
+            $data = $request->all();
+            $data['password'] = md5($data['password']); // Хешируем пароль
+
+            if (User::create($data)) {
+                app()->route->redirect('/');
+            }
         }
+
         return new View('site.signup');
     }
 
