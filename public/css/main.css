@@ -41,13 +41,17 @@ a {
     transition: all 0.1s ease;
 }
 
-a:hover {
-    /*font-size: 2.2vh;*/
-}
+/*a:hover {*/
+/*    !*font-size: 2.2vh;*!*/
+/*}*/
 
 .container {
     width: 68.75%;
     margin: 0 auto;
+}
+
+td, thead {
+    padding: 1vh;
 }
 
 /*main.php*/

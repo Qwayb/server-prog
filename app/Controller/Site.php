@@ -86,12 +86,30 @@ class Site
 
     public function divisions(Request $request): string
     {
-        // Получаем все подразделения
         $divisions = Division::all();
 
-        // Возвращаем представление с данными
+        foreach ($divisions as $division) {
+            $division->subscribers_count = $division->subscribersCount();
+        }
+
         return (new View())->render('site.divisions', [
             'divisions' => $divisions
+        ]);
+    }
+
+    public function divisionPhones(Request $request, $divisionId): string
+    {
+        $division = Division::find($divisionId);
+
+        if (!$division) {
+            return 'Подразделение не найдено';
+        }
+
+        $phones = $division->phones;
+
+        return (new View())->render('site.division_phones', [
+            'division' => $division,
+            'phones' => $phones
         ]);
     }
 

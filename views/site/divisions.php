@@ -1,6 +1,6 @@
 <h1>Список подразделений:</h1>
 
-<table>
+<table border="1">
     <thead>
     <tr>
         <th>ID</th>
@@ -18,3 +18,5 @@
     <?php endforeach; ?>
     </tbody>
 </table>
+
+<a href="<?= app()->route->getUrl('/divisions-add') ?>" class="button main-buttons__button">Добавить подразделение</a>
