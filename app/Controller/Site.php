@@ -3,6 +3,7 @@
 namespace Controller;
 
 use Model\Division;
+use Model\Phone;
 use Model\Post;
 use Model\Room;
 use Model\User;
@@ -86,6 +87,14 @@ class Site
 
         return (new View())->render('site.rooms', [
             'rooms' => $rooms
+        ]);
+    }
+
+    public function phones(): string
+    {
+        $phones = Phone::with(['room', 'subscriber'])->get();
+        return (new View())->render('site.phones', [
+            'phones' => $phones
         ]);
     }
 }

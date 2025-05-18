@@ -16,8 +16,8 @@ class Division extends Model
         'user_id',
     ];
 
-    public static function all($columns = ['*'])
+    public function rooms()
     {
-        return parent::all($columns);
+        return $this->hasMany(Room::class, 'division_id');
     }
 }

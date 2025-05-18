@@ -42,4 +42,10 @@ class User extends Model implements IdentityInterface
             'password' => md5($credentials['password'])
         ])->first();
     }
+
+    // Связь: пользователь имеет много абонентов
+    public function subscribers()
+    {
+        return $this->hasMany(Subscriber::class, 'user_id');
+    }
 }
