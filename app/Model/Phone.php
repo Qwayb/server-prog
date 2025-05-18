@@ -12,7 +12,7 @@ class Phone extends Model
     // Связь с помещением
     public function room()
     {
-        return $this->belongsTo(Room::class);
+        return $this->belongsTo(Room::class, 'room_id');
     }
 
     // Связь с абонентом

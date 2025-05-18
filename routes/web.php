@@ -7,8 +7,6 @@ Route::add('GET', '/', [Controller\Site::class, 'hello'])
 Route::add(['GET', 'POST'], '/signup', [Controller\Site::class, 'signup']);
 Route::add(['GET', 'POST'], '/login', [Controller\Site::class, 'login']);
 Route::add('GET', '/logout', [Controller\Site::class, 'logout']);
-Route::add('GET', '/subscribers', [Controller\Site::class, 'subscribers'])
-    ->middleware('auth');
 Route::add('GET', '/phones', [Controller\Site::class, 'phones'])
     ->middleware('auth');
 
@@ -28,4 +26,11 @@ Route::add('GET', '/subscribers/{id}', [Controller\DivisionController::class, 'l
 Route::add('GET', '/rooms', [Controller\Site::class, 'rooms'])
     ->middleware('auth');
 Route::add(['GET', 'POST'], '/rooms-add', [Controller\RoomController::class, 'add'])
+    ->middleware('auth');
+
+//subscribers
+Route::add('GET', '/subscribers', [Controller\SubscriberController::class, 'list'])
+    ->middleware('auth');
+
+Route::add(['GET', 'POST'], '/subscribers-add', [Controller\SubscriberController::class, 'add'])
     ->middleware('auth');

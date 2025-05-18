@@ -12,7 +12,7 @@ class Room extends Model
     // Связь с подразделением
     public function division()
     {
-        return $this->belongsTo(Division::class);
+        return $this->belongsTo(Division::class, 'division_id');
     }
 
     // Связь с телефонами
