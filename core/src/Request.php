@@ -27,9 +27,19 @@ class Request
         $this->body[$field] = $value;
     }
 
-    public function get($field)
+    public function get(string $key, $default = null)
     {
-        return $this->body[$field];
+        // Для GET-параметров
+        if (isset($_GET[$key])) {
+            return $_GET[$key];
+        }
+
+        // Для POST-данных
+        if (isset($this->body[$key])) {
+            return $this->body[$key];
+        }
+
+        return $default;
     }
 
     public function files(): array

@@ -19,4 +19,15 @@ class Subscriber extends Model
         return $this->hasMany(Phone::class, 'subscriber_id');
     }
 
+    public function getDivisionsAttribute()
+    {
+        return $this->phones->map(function($phone) {
+            return $phone->room->division ?? null;
+        })->filter()->unique('id');
+    }
+
+    public function getFullName(): string
+    {
+        return trim($this->surname . ' ' . $this->name . ' ' . $this->patronymic);
+    }
 }

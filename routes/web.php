@@ -34,3 +34,5 @@ Route::add('GET', '/subscribers', [Controller\SubscriberController::class, 'list
 
 Route::add(['GET', 'POST'], '/subscribers-add', [Controller\SubscriberController::class, 'add'])
     ->middleware('auth');
+Route::add('GET', '/subscriber/{id}/phones', [Controller\SubscriberController::class, 'viewPhones'])
+    ->middleware('auth');

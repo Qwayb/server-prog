@@ -2,15 +2,14 @@
 
 <!-- Форма фильтрации -->
 <form method="get" action="<?= app()->route->getUrl('/subscribers') ?>">
+    <input type="hidden" name="csrf_token" value="<?= app()->auth::generateCSRF() ?>">
     <div class="filter-section">
         <label>Фильтр по подразделению:</label>
         <select name="division_id">
-            <option value="">Все</option>
+            <option value="">Все подразделения</option>
             <?php foreach ($divisions as $division): ?>
-                <option
-                        value="<?= $division->id ?>"
-                    <?= $selectedDivision == $division->id ? 'selected' : '' ?>
-                >
+                <option value="<?= $division->id ?>"
+                    <?= ($selectedDivision !== null && $selectedDivision == $division->id) ? 'selected' : '' ?>>
                     <?= htmlspecialchars($division->title) ?>
                 </option>
             <?php endforeach; ?>
@@ -33,6 +32,7 @@
         <th>Дата рождения</th>
         <th>Пользователь</th>
         <th>Подразделение</th> <!-- Новый столбец -->
+        <th>Действия</th>
     </tr>
     </thead>
     <tbody>
@@ -45,15 +45,16 @@
             <td><?= $subscriber->birth_date ?></td>
             <td><?= htmlspecialchars($subscriber->user->login ?? 'Нет') ?></td>
             <td>
-                <?php
-                $divisions = [];
-                foreach ($subscriber->phones as $phone) {
-                    if ($phone->room && $phone->room->division) {
-                        $divisions[] = $phone->room->division->title;
-                    }
-                }
-                echo implode(', ', array_unique($divisions)) ?: '—';
-                ?>
+                <?= $subscriber->divisions->isNotEmpty()
+                    ? implode(', ', $subscriber->divisions->pluck('title')->toArray())
+                    : '—' ?>
+            </td>
+            <td>
+                <a href="<?= app()->route->getUrl('/subscriber/' . $subscriber->id . '/phones') ?>"
+                   class="btn-view"
+                   title="Просмотр телефонов">
+                    📞
+                </a>
             </td>
         </tr>
     <?php endforeach; ?>
