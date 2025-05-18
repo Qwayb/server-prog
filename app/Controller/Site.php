@@ -9,6 +9,7 @@ use Model\Room;
 use Model\User;
 use Model\Subscriber;
 use Src\Request;
+use Src\Validator\Validator;
 use Src\View;
 use Src\Auth\Auth;
 
@@ -28,14 +29,27 @@ class Site
     public function signup(Request $request): string
     {
         if ($request->method === 'POST') {
-            $data = $request->all();
-            $data['password'] = md5($data['password']); // Хешируем пароль
+            $validator = new Validator($request->all(), [
+                'login' => ['required', 'unique:users,login'],
+                'password' => ['required']
+            ], [
+                'required' => 'Поле :field пусто',
+                'unique' => 'Поле :field должно быть уникально'
+            ]);
 
-            if (User::create($data)) {
+            if($validator->fails()){
+                return new View('site.signup',
+                    ['message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE)]);
+            }
+
+            // Хэшируем пароль перед созданием пользователя
+            $userData = $request->all();
+            $userData['password'] = md5($userData['password']);
+
+            if (User::create($userData)) {
                 app()->route->redirect('/');
             }
         }
-
         return new View('site.signup');
     }
 

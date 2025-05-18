@@ -1,4 +1,5 @@
 <form class="auth-form signup-form" method="post">
+    <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
     <input placeholder="Логин" type="text" name="login" required>
     <input placeholder="Пароль" type="password" name="password" required>
     <select name="role" required>
