@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ac563ac6875c7ac65552a2654b61c2dc",
+    "content-hash": "3c21bae04b319454e62080f925a6512f",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -747,6 +747,49 @@
             "time": "2017-10-23T01:57:42+00:00"
         },
         {
+            "name": "qwayb/demo-collect",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Qwayb/demo-collect.git",
+                "reference": "79fd54958b37ea6ccd8a6a4668337341b09a023e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Qwayb/demo-collect/zipball/79fd54958b37ea6ccd8a6a4668337341b09a023e",
+                "reference": "79fd54958b37ea6ccd8a6a4668337341b09a023e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4| ^8.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Collect\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Qwayb",
+                    "email": "girdden@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/Qwayb/demo-collect/issues",
+                "source": "https://github.com/Qwayb/demo-collect/tree/main"
+            },
+            "time": "2025-05-19T22:32:45+00:00"
+        },
+        {
             "name": "symfony/deprecation-contracts",
             "version": "dev-main",
             "source": {
@@ -1155,12 +1198,14 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "qwayb/demo-collect": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": "^7.4 | ^8.0"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }

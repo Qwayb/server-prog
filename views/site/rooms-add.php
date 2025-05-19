@@ -5,9 +5,11 @@
 
     <div class="form-group">
         <label>Название помещения:</label>
-        <input type="text" name="title" required>
+        <input type="text" name="title"
+               value="<?= htmlspecialchars($old['title'] ?? '') ?>"
+               required>
         <?php if (isset($errors['title'])): ?>
-            <div class="error"><?= $errors['title'][0] ?></div>
+            <div class="error"><?= implode('<br>', $errors['title']) ?></div>
         <?php endif; ?>
     </div>
 

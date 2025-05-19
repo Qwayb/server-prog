@@ -12,30 +12,38 @@ class RoomController
 {
     public function add(Request $request): string
     {
-        $divisions = Division::all(); // Получаем все подразделения для выпадающего списка
+        $divisions = Division::all();
 
         if ($request->method === 'POST') {
-            // Валидация данных
-            $validator = new Validator($request->all(), [
-                'title' => ['required'],
-                'room_type' => ['required'],
-                'division_id' => ['required', 'exists:divisions,id']
-            ]);
+            // Нормализация данных перед валидацией
+            $data = $request->all();
+            $data['title'] = mb_strtolower(trim($data['title']));
+            $data['title'] = preg_replace('/\s+/', ' ', $data['title']);
+
+            $validator = new Validator(
+                $data,
+                [
+                    'title' => ['required', 'room_unique'],
+                    'room_type' => ['required'],
+                    'division_id' => ['required', 'exists:divisions,id']
+                ],
+                [
+                    'room_unique' => 'Помещение ":value" уже существует!'
+                ]
+            );
 
             if ($validator->fails()) {
-                // Возвращаем форму с ошибками
                 return (new View())->render('site.rooms-add', [
                     'divisions' => $divisions,
-                    'errors' => $validator->errors()
+                    'errors' => $validator->errors(),
+                    'old' => $data
                 ]);
             }
 
-            // Сохраняем помещение в БД
-            Room::create($request->all());
+            Room::create($data);
             app()->route->redirect('/rooms');
         }
 
-        // Отображаем форму для GET-запроса
         return (new View())->render('site.rooms-add', [
             'divisions' => $divisions
         ]);
