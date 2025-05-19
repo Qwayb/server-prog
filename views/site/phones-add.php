@@ -51,4 +51,3 @@
     input, select { padding: 8px; width: 300px; }
     .error { color: red; font-size: 14px; }
 </style>
-
