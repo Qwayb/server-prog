@@ -1,0 +1,26 @@
+{
+    "name": "qwayb/server-prog",
+    "description": "Description",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Qwayb",
+            "email": "girdden@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.4 | ^8.0",
+        "illuminate/database": "6.20.44",
+        "illuminate/events": "6.20.44",
+        "illuminate/contracts": "6.20.44",
+        "nikic/fast-route": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Src\\": "core/src/",
+            "": "app/"
+        }
+    }
+}
