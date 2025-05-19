@@ -20,18 +20,37 @@ class DivisionController
 
     public function add(Request $request): string
     {
+        $errors = [];
+        $old = $request->all(); // Сохраняем введенные данные
+
         if ($request->method === 'POST') {
             $validator = new Validator($request->all(), [
                 'title' => ['required'],
                 'division_type' => ['required']
             ]);
 
-            if (!$validator->fails()) {
-                Division::create($request->all());
-                app()->route->redirect('/divisions');
+            if ($validator->fails()) {
+                $errors = $validator->errors();
+            } else {
+                try {
+                    Division::create([
+                        'title' => $request->get('title'),
+                        'division_type' => $request->get('division_type')
+                    ]);
+
+                    app()->route->redirect('/divisions');
+                    return '';
+
+                } catch (\Exception $e) {
+                    $errors['database'] = ['Ошибка при сохранении: ' . $e->getMessage()];
+                }
             }
         }
-        return (new View())->render('site.divisions-add');
+
+        return (new View())->render('site.divisions-add', [
+            'errors' => $errors,
+            'old' => $old
+        ]);
     }
 
     public function selectDivision(): string

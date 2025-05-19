@@ -6,16 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Phone extends Model
 {
-    public $timestamps = false;
+    protected $table = 'phones';
     protected $fillable = ['number', 'room_id', 'subscriber_id'];
 
-    // Связь с помещением
+    // Отключаем автоматическое управление временными метками
+    public $timestamps = false;
+
     public function room()
     {
-        return $this->belongsTo(Room::class, 'room_id');
+        return $this->belongsTo(Room::class);
     }
 
-    // Связь с абонентом
     public function subscriber()
     {
         return $this->belongsTo(Subscriber::class);

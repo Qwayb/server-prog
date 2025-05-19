@@ -14,47 +14,41 @@
                 </option>
             <?php endforeach; ?>
         </select>
-        <button type="submit" class="btn-filter">Применить</button>
+        <button type="submit" class="button main-buttons__button">Применить</button>
+        <a href="<?= app()->route->getUrl('/subscribers-add') ?>" class="button main-buttons__button">Добавить абонента</a>
     </div>
 </form>
 
-<a href="<?= app()->route->getUrl('/subscribers-add') ?>" class="btn-add">
-    Добавить абонента
-</a>
 
 <table class="subscribers-table">
     <thead>
     <tr>
         <th>ID</th>
-        <th>Фамилия</th>
-        <th>Имя</th>
-        <th>Отчество</th>
+        <th>ФИО</th>
         <th>Дата рождения</th>
-        <th>Пользователь</th>
-        <th>Подразделение</th> <!-- Новый столбец -->
-        <th>Действия</th>
+        <th>Действия (Телефон)</th>
     </tr>
     </thead>
     <tbody>
     <?php foreach ($subscribers as $subscriber): ?>
         <tr>
             <td><?= $subscriber->id ?></td>
-            <td><?= htmlspecialchars($subscriber->surname) ?></td>
-            <td><?= htmlspecialchars($subscriber->name) ?></td>
-            <td><?= htmlspecialchars($subscriber->patronymic) ?></td>
-            <td><?= $subscriber->birth_date ?></td>
-            <td><?= htmlspecialchars($subscriber->user->login ?? 'Нет') ?></td>
             <td>
-                <?= $subscriber->divisions->isNotEmpty()
-                    ? implode(', ', $subscriber->divisions->pluck('title')->toArray())
-                    : '—' ?>
+                <?= htmlspecialchars(
+                    $subscriber->surname . ' ' .
+                    $subscriber->name . ' ' .
+                    $subscriber->patronymic
+                ) ?>
             </td>
+            <td><?= $subscriber->birth_date ?></td>
             <td>
-                <a href="<?= app()->route->getUrl('/subscriber/' . $subscriber->id . '/phones') ?>"
-                   class="btn-view"
-                   title="Просмотр телефонов">
-                    📞
-                </a>
+                <?php if ($subscriber->phones->isNotEmpty()): ?>
+                    <?php foreach ($subscriber->phones as $phone): ?>
+                        <div><?= htmlspecialchars($phone->number) ?></div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <span class="no-phone">Нет телефона</span>
+                <?php endif; ?>
             </td>
         </tr>
     <?php endforeach; ?>
@@ -62,7 +56,6 @@
 </table>
 
 <style>
-    /* Добавьте новые стили */
     .filter-section {
         margin-bottom: 20px;
         padding: 15px;
@@ -73,12 +66,5 @@
         padding: 6px;
         width: 300px;
         margin-right: 10px;
-    }
-    .btn-filter {
-        padding: 6px 12px;
-        background: #2196F3;
-        color: white;
-        border: none;
-        border-radius: 3px;
     }
 </style>

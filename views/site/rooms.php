@@ -1,5 +1,9 @@
 <h1>Список помещений:</h1>
 
+<?php if (app()->auth::isAdmin()): ?>
+    <a href="<?= app()->route->getUrl('/rooms-add') ?>" class="button">Добавить помещение</a>
+<?php endif; ?>
+
 <table class="rooms-table">
     <thead>
     <tr>
@@ -24,6 +28,17 @@
     </tbody>
 </table>
 
-<?php if (app()->auth::isAdmin()): ?>
-    <a href="<?= app()->route->getUrl('/rooms-add') ?>" class="button">Добавить помещение</a>
-<?php endif; ?>
+<style>
+.filter-section {
+margin-bottom: 20px;
+padding: 15px;
+background: #f5f5f5;
+border-radius: 4px;
+}
+.filter-section select {
+padding: 6px;
+width: 300px;
+margin-right: 10px;
+}
+</style>
+

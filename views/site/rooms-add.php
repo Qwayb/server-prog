@@ -33,10 +33,10 @@
         <?php endif; ?>
     </div>
 
-    <button type="submit" class="btn">Добавить</button>
+    <button type="submit" class="button main-buttons__button">Добавить</button>
 </form>
 
-<a href="/rooms">Назад к списку помещений</a>
+<a href="<?= app()->route->getUrl('/rooms') ?>" class="button main-buttons__button">Назад к списку помещений</a>
 
 <style>
     .form-group { margin-bottom: 15px; }

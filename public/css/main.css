@@ -35,6 +35,13 @@ p, a, h1, h2, h3, input, button, select, ol, li {
 
 }
 
+h1 {
+    margin-bottom: 2vh;
+}
+
+table {
+    margin-top: 2vh;
+}
 
 a {
     color: black;
@@ -85,12 +92,12 @@ nav {
 
 /*login.php*/
 form {
-    display: flex;
+    /*display: flex;*/
     flex-direction: column;
     gap: 1.8vh;
     margin: auto;
     justify-content: center;
-    height: 100vh;
+    /*height: 100vh;*/
 }
 
 .auth-form {
