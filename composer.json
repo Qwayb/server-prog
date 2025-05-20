@@ -16,7 +16,8 @@
         "illuminate/events": "6.20.44",
         "illuminate/contracts": "6.20.44",
         "nikic/fast-route": "^1.0",
-        "qwayb/demo-collect": "dev-main"
+        "qwayb/demo-collect": "dev-main",
+        "qwayb/abstract-pack": "dev-main"
     },
     "autoload": {
         "psr-4": {

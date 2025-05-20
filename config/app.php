@@ -13,7 +13,9 @@ return [
         'specialChars' => \Middlewares\SpecialCharsMiddleware::class,
     ],
     'validators' => [
-        'required' => \Src\Validator\RequireValidator::class,
-        'unique' => \Src\Validator\UniqueValidator::class
+        'required' => \Validators\RequireValidator::class,
+        'unique' => \Validators\UniqueValidator::class,
+        'password' => \Validators\PasswordValidator::class,
+        'room_unique' => \Validators\RoomUniqueValidator::class,
     ]
 ];

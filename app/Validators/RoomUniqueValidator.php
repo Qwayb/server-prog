@@ -2,7 +2,7 @@
 
 namespace Validators;
 
-use Src\Validator\AbstractValidator;
+use AbstractValidator\AbstractValidator;
 use Model\Room;
 
 class RoomUniqueValidator extends AbstractValidator

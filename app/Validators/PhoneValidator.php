@@ -2,8 +2,7 @@
 
 namespace Validators;
 
-use Src\Validator\AbstractValidator;
-
+use AbstractValidator\AbstractValidator;
 class PhoneValidator extends AbstractValidator
 {
     protected string $message = 'Телефон должен содержать 11 цифр и начинаться с 7 или 8';

@@ -25,8 +25,11 @@ class DivisionController
 
         if ($request->method === 'POST') {
             $validator = new Validator($request->all(), [
-                'title' => ['required'],
-                'division_type' => ['required']
+                'title' => ['required', 'unique:divisions,title'],
+                'division_type' => ['required'],
+                [
+                    'unique' => 'Помещение ":value" уже существует!'
+                ]
             ]);
 
             if ($validator->fails()) {

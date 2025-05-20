@@ -31,18 +31,23 @@ class Site
         if ($request->method === 'POST') {
             $validator = new Validator($request->all(), [
                 'login' => ['required', 'unique:users,login'],
-                'password' => ['required']
+                'password' => ['required', 'password'],
+                'role' => ['required', 'in:admin,sysadmin']
             ], [
                 'required' => 'Поле :field пусто',
-                'unique' => 'Поле :field должно быть уникально'
+                'unique' => 'Пользователь с таким логином уже существует',
+                'password' => 'Пароль должен содержать 6+ символов, буквы и цифры',
+                'in' => 'Некорректная роль'
             ]);
 
             if($validator->fails()){
-                return new View('site.signup',
-                    ['message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE)]);
+                return new View('site.signup', [
+                    'message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE),
+                    'errors' => $validator->errors(),
+                    'old' => $request->all() // Сохраняем введенные данные
+                ]);
             }
 
-            // Хэшируем пароль перед созданием пользователя
             $userData = $request->all();
             $userData['password'] = md5($userData['password']);
 
