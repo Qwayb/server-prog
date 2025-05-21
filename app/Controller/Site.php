@@ -44,7 +44,7 @@ class Site
                 return new View('site.signup', [
                     'message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE),
                     'errors' => $validator->errors(),
-                    'old' => $request->all() // Сохраняем введенные данные
+                    'old' => $request->all()
                 ]);
             }
 
@@ -80,10 +80,8 @@ class Site
 
     public function subscribers(Request $request): string
     {
-        // Получаем всех абонентов из модели
         $subscribers = Subscriber::all();
 
-        // Передаем в представление
         return (new View())->render('site.subscribers', [
             'subscribers' => $subscribers
         ]);

@@ -22,11 +22,17 @@
     <div class="form-group">
         <label>Отчество:</label>
         <input type="text" name="patronymic" required>
+        <?php if (isset($errors['patronymic'])): ?>
+            <div class="error"><?= $errors['patronymic'][0] ?></div>
+        <?php endif; ?>
     </div>
 
     <div class="form-group">
         <label>Дата рождения:</label>
         <input type="date" name="birth_date" required>
+        <?php if (isset($errors['birth_date'])): ?>
+            <div class="error"><?= $errors['birth_date'][0] ?></div>
+        <?php endif; ?>
     </div>
 
     <div class="form-group">
@@ -39,6 +45,7 @@
             <?php endforeach; ?>
         </select>
     </div>
+
 
     <button type="submit" class="btn">Добавить</button>
     <a href="/subscribers" class="btn-cancel">Отмена</a>

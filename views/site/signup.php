@@ -14,9 +14,9 @@
                type="password"
                name="password"
                required>
-        <?php if (isset($errors['password'])): ?>
-            <div class="error"><?= $errors['password'][0] ?? '' ?></div>
-        <?php endif; ?>
+<!--        --><?php //if (isset($errors['password'])): ?>
+<!--            <div class="error">--><?php //= $errors['password'][0] ?? '' ?><!--</div>-->
+<!--        --><?php //endif; ?>
     </div>
 
     <div class="form-group">

@@ -17,5 +17,8 @@ return [
         'unique' => \Validators\UniqueValidator::class,
         'password' => \Validators\PasswordValidator::class,
         'room_unique' => \Validators\RoomUniqueValidator::class,
+        'cyrillic' => \Validators\CyrillicValidator::class,
+        'adult' => \Validators\AdultValidator::class,
+        'phone' => \Validators\PhoneNumberValidator::class,
     ]
 ];

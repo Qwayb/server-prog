@@ -8,22 +8,38 @@ use Model\Subscriber;
 use Model\User;
 use Src\Validator\Validator;
 use Src\View;
+use Validators\CyrillicValidator;
+use Qwayb\ExceptionHandler\ExceptionHandler;
+use Exception;
 
 class SubscriberController
 {
     public function list(Request $request): string
     {
-        try {
-            // Получаем параметр безопасно
+        $handler = new ExceptionHandler(
+            function(Exception $e) {
+                // Логирование ошибки
+                error_log($e->getMessage());
+                return [
+                    'success' => false,
+                    'error' => [
+                        'message' => 'Произошла ошибка при загрузке данных',
+                        'type' => 'data_load_error',
+                        'status' => 500
+                    ]
+                ];
+            },
+            true // debug mode
+        );
+
+        $result = $handler->handle(function() use ($request) {
             $divisionId = $request->get('division_id');
 
-            // Основной запрос с жадной загрузкой
             $query = Subscriber::with([
                 'user',
                 'phones.room.division'
             ]);
 
-            // Применяем фильтр если есть division_id
             if ($divisionId && is_numeric($divisionId)) {
                 $query->whereHas('phones.room.division', function($q) use ($divisionId) {
                     $q->where('id', $divisionId);
@@ -33,36 +49,50 @@ class SubscriberController
             $subscribers = $query->get();
             $divisions = Division::all();
 
-            return (new View())->render('site.subscribers', [
-                'subscribers' => $subscribers,
-                'divisions' => $divisions,
-                'selectedDivision' => $divisionId
-            ]);
+            return [
+                'view' => (new View())->render('site.subscribers', [
+                    'subscribers' => $subscribers,
+                    'divisions' => $divisions,
+                    'selectedDivision' => $divisionId
+                ]),
+                'success' => true
+            ];
+        });
 
-        } catch (Exception $e) {
-            // Логирование ошибки
-            error_log($e->getMessage());
-            return "Произошла ошибка при загрузке данных";
+        if (!$result['success']) {
+            return $result['error']['message'];
         }
+
+        return $result['data']['view'];
     }
 
     public function add(Request $request): string
     {
-        $users = User::all(); // Для выпадающего списка пользователей
+        $users = User::all();
 
         if ($request->method === 'POST') {
             $validator = new Validator($request->all(), [
-                'surname' => ['required'],
-                'name' => ['required'],
-                'patronymic' => ['required'],
-                'birth_date' => ['required', 'date'],
+                'surname' => ['required', 'cyrillic', 'min:2', 'max:50'],
+                'name' => ['required', 'cyrillic', 'min:2', 'max:50'],
+                'patronymic' => ['required', 'cyrillic', 'min:2', 'max:50'],
+                'birth_date' => ['required', 'date', 'adult'],
                 'user_id' => ['required', 'exists:users,id']
+            ], [
+                'required' => 'Поле :field обязательно для заполнения',
+                'cyrillic' => 'Поле :field должно содержать только кириллические символы',
+                'min' => 'Поле :field должно содержать минимум :min символа',
+                'max' => 'Поле :field должно содержать максимум :max символов',
+                'date' => 'Некорректная дата',
+                'adult' => 'Возраст должен быть 18 лет или больше',
+                'exists' => 'Выбранный пользователь не существует'
             ]);
 
             if ($validator->fails()) {
-                return (new View())->render('site.subscribers-add', [
+                return new View('site.subscribers-add', [
                     'users' => $users,
-                    'errors' => $validator->errors()
+                    'message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE),
+                    'errors' => $validator->errors(),
+                    'old' => $request->all()
                 ]);
             }
 
@@ -70,11 +100,8 @@ class SubscriberController
             app()->route->redirect('/subscribers');
         }
 
-        return (new View())->render('site.subscribers-add', [
-            'users' => $users
-        ]);
+        return new View('site.subscribers-add', ['users' => $users]);
     }
-
     public function viewPhones(Request $request, string $id): string
     {
         $subscriber = Subscriber::with(['phones.room.division'])->find($id);

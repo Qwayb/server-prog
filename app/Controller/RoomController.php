@@ -23,8 +23,8 @@ class RoomController
             $validator = new Validator(
                 $data,
                 [
-                    'title' => ['required', 'room_unique'],
-                    'room_type' => ['required'],
+                    'title' => ['required', 'room_unique', 'cyrillic'],
+                    'room_type' => ['required', 'cyrillic'],
                     'division_id' => ['required', 'exists:divisions,id']
                 ],
                 [

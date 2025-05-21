@@ -2,11 +2,13 @@
 
 namespace Controller;
 
+use Exception;
 use Model\Division;
 use Src\Request;
 use Src\Validator\Validator;
 use Src\View;
 use Model\Subscriber;
+use Qwayb\ExceptionHandler\ExceptionHandler;
 
 class DivisionController
 {
@@ -21,12 +23,12 @@ class DivisionController
     public function add(Request $request): string
     {
         $errors = [];
-        $old = $request->all(); // Сохраняем введенные данные
+        $old = $request->all();
 
         if ($request->method === 'POST') {
             $validator = new Validator($request->all(), [
-                'title' => ['required', 'unique:divisions,title'],
-                'division_type' => ['required'],
+                'title' => ['required', 'unique:divisions,title', 'cyrillic'],
+                'division_type' => ['required', 'cyrillic'],
                 [
                     'unique' => 'Помещение ":value" уже существует!'
                 ]
@@ -35,7 +37,21 @@ class DivisionController
             if ($validator->fails()) {
                 $errors = $validator->errors();
             } else {
-                try {
+                $handler = new ExceptionHandler(
+                    function(Exception $e) {
+                        return [
+                            'success' => false,
+                            'error' => [
+                                'message' => 'Ошибка при сохранении: ' . $e->getMessage(),
+                                'type' => 'database_error',
+                                'status' => 500
+                            ]
+                        ];
+                    },
+                    true // debug mode
+                );
+
+                $result = $handler->handle(function() use ($request) {
                     Division::create([
                         'title' => $request->get('title'),
                         'division_type' => $request->get('division_type')
@@ -43,9 +59,10 @@ class DivisionController
 
                     app()->route->redirect('/divisions');
                     return '';
+                });
 
-                } catch (\Exception $e) {
-                    $errors['database'] = ['Ошибка при сохранении: ' . $e->getMessage()];
+                if (!$result['success']) {
+                    $errors['database'] = [$result['error']['message']];
                 }
             }
         }
