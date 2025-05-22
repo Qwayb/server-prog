@@ -17,7 +17,6 @@
                     <?= implode('<br>', $errors['number']) ?>
                 </div>
             <?php endif; ?>
-            <div class="form-text">Введите 11 цифр, начинающихся с 7 или 8</div>
         </div>
 
         <div class="mb-3">

@@ -18,7 +18,9 @@
         "nikic/fast-route": "^1.0",
         "qwayb/demo-collect": "dev-main",
         "qwayb/abstract-pack": "dev-main",
-        "qwayb/exception-handler": "dev-main"
+        "qwayb/exception-handler": "dev-main",
+        "phpunit/phpunit": "^9.5",
+        "ext-mbstring": "*"
     },
     "autoload": {
         "psr-4": {

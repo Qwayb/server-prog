@@ -51,8 +51,9 @@ class Site
             $userData = $request->all();
             $userData['password'] = md5($userData['password']);
 
-            if (User::create($userData)) {
+            if (User::create($request->all())) {
                 app()->route->redirect('/');
+                return '';
             }
         }
         return new View('site.signup');
