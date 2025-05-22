@@ -2,7 +2,7 @@
 
 namespace Controller;
 
-use Exception;
+use Qwayb\ExceptionHandler\ExceptionRegistry;
 use Model\Division;
 use Src\Request;
 use Src\Validator\Validator;
@@ -27,8 +27,8 @@ class DivisionController
 
         if ($request->method === 'POST') {
             $validator = new Validator($request->all(), [
-                'title' => ['required', 'unique:divisions,title', 'cyrillic'],
-                'division_type' => ['required', 'cyrillic'],
+                'title' => ['required', 'unique:divisions,title'],
+                'division_type' => ['required'],
                 [
                     'unique' => 'Помещение ":value" уже существует!'
                 ]
@@ -37,21 +37,19 @@ class DivisionController
             if ($validator->fails()) {
                 $errors = $validator->errors();
             } else {
-                $handler = new ExceptionHandler(
-                    function(Exception $e) {
-                        return [
-                            'success' => false,
-                            'error' => [
-                                'message' => 'Ошибка при сохранении: ' . $e->getMessage(),
-                                'type' => 'database_error',
-                                'status' => 500
-                            ]
-                        ];
-                    },
-                    true // debug mode
-                );
+                ExceptionRegistry::register(\PDOException::class, [
+                    'status' => 500,
+                    'message' => 'Ошибка базы данных: {original_message}',
+                    'code' => 'DB_ERROR'
+                ]);
 
-                $result = $handler->handle(function() use ($request) {
+                ExceptionRegistry::register(\Exception::class, [
+                    'status' => 500,
+                    'message' => 'Ошибка при сохранении: {original_message}',
+                    'code' => 'SAVE_ERROR'
+                ]);
+
+                $result = ExceptionHandler::handle(function() use ($request) {
                     Division::create([
                         'title' => $request->get('title'),
                         'division_type' => $request->get('division_type')
@@ -62,6 +60,13 @@ class DivisionController
                 });
 
                 if (!$result['success']) {
+                    error_log(sprintf(
+                        "[%s][HTTP %d] %s",
+                        $result['error']['code'],
+                        $result['error']['status'],
+                        $result['error']['message']
+                    ));
+
                     $errors['database'] = [$result['error']['message']];
                 }
             }
@@ -72,7 +77,6 @@ class DivisionController
             'old' => $old
         ]);
     }
-
     public function selectDivision(): string
     {
         $divisions = Division::all();

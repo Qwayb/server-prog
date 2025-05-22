@@ -8,7 +8,7 @@ use Model\Subscriber;
 use Src\Validator\Validator;
 use Src\View;
 use Qwayb\ExceptionHandler\ExceptionHandler;
-use Exception;
+use Qwayb\ExceptionHandler\ExceptionRegistry;
 
 class PhoneController
 {
@@ -67,54 +67,35 @@ class PhoneController
 
     public function attachSubscriber(string $id, Request $request): void
     {
-        $handler = new ExceptionHandler(function(Exception $e) {
-            return [
-                'success' => false,
-                'error' => [
-                    'message' => $e->getMessage(),
-                    'type' => 'attachment_error',
-                    'status' => 400
-                ]
-            ];
-        }, true);
-
-        $result = $handler->handle(function() use ($id, $request) {
+        try {
             // Получаем телефон по ID
             $phone = Phone::find($id);
             if (!$phone) {
-                throw new Exception("Телефон с ID $id не найден", 404);
+                throw new \Exception("Телефон с ID $id не найден");
             }
 
             // Получаем ID абонента из запроса
             $subscriberId = $request->get('subscriber_id');
             if (!$subscriberId) {
-                throw new Exception("Не указан ID абонента", 400);
+                throw new \Exception("Не указан ID абонента");
             }
 
             // Проверяем существование абонента
             if (!Subscriber::find($subscriberId)) {
-                throw new Exception("Абонент с ID $subscriberId не найден", 404);
+                throw new \Exception("Абонент с ID $subscriberId не найден");
             }
 
             // Обновляем привязку
             $phone->subscriber_id = $subscriberId;
             $phone->save();
 
-            return ['message' => 'Абонент успешно прикреплен'];
-        });
-
-        // Логируем ошибку, если она есть
-        if (!$result['success']) {
-            error_log("Ошибка прикрепления абонента: " . $result['error']['message']);
-
-            // Можно добавить flash-сообщение для пользователя
-            $_SESSION['flash_error'] = $result['error']['message'];
+        } catch (\Exception $e) {
+            error_log("Ошибка прикрепления абонента: " . $e->getMessage());
         }
 
         // Перенаправляем обратно
         app()->route->redirect('/phones');
     }
-
     public function detachSubscriber($id)
     {
         $phone = Phone::find($id);

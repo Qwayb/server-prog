@@ -16,23 +16,8 @@ class SubscriberController
 {
     public function list(Request $request): string
     {
-        $handler = new ExceptionHandler(
-            function(Exception $e) {
-                // Логирование ошибки
-                error_log($e->getMessage());
-                return [
-                    'success' => false,
-                    'error' => [
-                        'message' => 'Произошла ошибка при загрузке данных',
-                        'type' => 'data_load_error',
-                        'status' => 500
-                    ]
-                ];
-            },
-            true // debug mode
-        );
-
-        $result = $handler->handle(function() use ($request) {
+        try {
+            // Получаем параметр безопасно
             $divisionId = $request->get('division_id');
 
             $query = Subscriber::with([
@@ -49,21 +34,16 @@ class SubscriberController
             $subscribers = $query->get();
             $divisions = Division::all();
 
-            return [
-                'view' => (new View())->render('site.subscribers', [
-                    'subscribers' => $subscribers,
-                    'divisions' => $divisions,
-                    'selectedDivision' => $divisionId
-                ]),
-                'success' => true
-            ];
-        });
+            return (new View())->render('site.subscribers', [
+                'subscribers' => $subscribers,
+                'divisions' => $divisions,
+                'selectedDivision' => $divisionId
+            ]);
 
-        if (!$result['success']) {
-            return $result['error']['message'];
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return "Произошла ошибка при загрузке данных";
         }
-
-        return $result['data']['view'];
     }
 
     public function add(Request $request): string
